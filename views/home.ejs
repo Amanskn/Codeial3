@@ -10,6 +10,26 @@
         <input type="submit" value="Post">
     </form>
 
+    <div id="posts-list-container">
+        <ul>
+            <% for(post of posts){%>
+            <li>
+                <p>
+                    <big>
+                        <%=post.content%>
+                    </big>
+                    <br>
+                    
+                    <small>
+                        ~ Posted by :-<%=post.user.name%>
+                    </small>
+                </p>
+            </li>
+            <%}%>
+        </ul>
+
+    </div>
+
 </section>
 
 
