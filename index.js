@@ -1,8 +1,9 @@
 // requiring the express module
 const express=require('express');
 
-// requiring the cookie parser module
+// requiring the cookie parser module to parse the cookie
 const cookieParser=require('cookie-parser');
+
 
 const app=express();
 
@@ -22,6 +23,17 @@ const passport=require('passport');
 const passportLocal=require('./config/passport-local-strategy');
 
 const MongoStore=require('connect-mongo');
+
+const sassMiddleware=require('node-sass-middleware');
+
+
+app.use(sassMiddleware({
+    src:"./assets/scss",
+    dest:"./assets/css",
+    debug:true,
+    outputStyle:'extended',
+    prefix:'/css'
+}));
 
 // express.urlencoded() is a built-in middleware in Express.js.
 //  The main objective of this method is to parse the incoming 
@@ -63,6 +75,7 @@ app.use(session({
     resave:false,
     cookie:{
         maxAge:(1000*60*100)
+        // maxAge:(1000*5)
     },
     store: MongoStore.create({
       
@@ -75,6 +88,11 @@ app.use(session({
 
 
 app.use(passport.initialize());
+
+// This middleware is responsible for serializing and deserializing user 
+// sessions for authentication purposes. It enables Passport to store user
+//  information in a session, so that the user doesn't need to re-authenticate 
+// on each request.
 app.use(passport.session());
 
 app.use(passport.setAuthenticatedUser);

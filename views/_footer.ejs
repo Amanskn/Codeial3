@@ -6,6 +6,22 @@
     <%=page%>
 <%*/%>
 
-<footer>
-    Page Footer
+<footer id="partial-footer">
+    
+    <div id="left-content">
+
+        <div>
+            &copy; Aman Maddhesia Venture.
+            <br> All Rights Reserved
+        </div>
+
+    </div>
+    <div id="right-content">
+        <a href="/">Home</a>
+        <br>
+        <%if(locals.user){%>
+        <a href="/users/profile">Profile</a>
+        <%}%>
+    </div>
+
 </footer>

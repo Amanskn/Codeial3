@@ -34,12 +34,14 @@ passport.use(new LocalStrategy({
 
 // serializing the user to decide which key is to be kept in the cookies
 passport.serializeUser(function(user,done){
+    console.log('Serialize User is called ');
     done(null,user.id);
 });
 
 
 // deserializing the user from the key in the cookies
 passport.deserializeUser(function(id,done){
+    console.log('DeSerialize User is called ');
     User.findById(id,function(err,user){
         if(err){
             console.log("Error in finding a user-->Passport");
