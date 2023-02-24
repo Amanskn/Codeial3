@@ -4,11 +4,22 @@
 </h1>
 
 <section>
-    <h4>Posts</h4>
-    <form action="/posts/create" id="new-post-form" method="post">
-        <textarea name="content" cols="30" rows="3" placeholder="Type here..."></textarea>
-        <input type="submit" value="Post">
-    </form>
+    <h2>Posts</h2>
+
+    <%/*%>
+        this is the way to do multiline comments in ejs, Ok
+
+        now here we restricting the form to be visible in the home page
+        when the user is not signed in, Got it 
+        
+    <%*/%>
+    <% if(locals.user){%>
+        <form action="/posts/create" id="new-post-form" method="post">
+            <textarea name="content" cols="30" rows="3" placeholder="Type here..."></textarea>
+            <input type="submit" value="Post">
+        </form>
+    <%}%>
+
 
     <div id="posts-list-container">
         <ul>
@@ -21,7 +32,7 @@
                     <br>
                     
                     <small>
-                        ~ Posted by :-<%=post.user.name%>
+                        ~ Posted by :- <%=post.user.name%>
                     </small>
                 </p>
             </li>
