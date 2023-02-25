@@ -1,4 +1,5 @@
 const Post=require('../models/post');
+const User=require('../models/user');
 
 
 
@@ -33,9 +34,16 @@ module.exports.home=function(req,res){
             // select:'-name -password -email',
 
             // to only populate the name field of the user
-            select:'name'
+            select:'name',
             
+            
+        },
+        
+        options: {
+            sort: { createdAt: -1 } // sort by createdAt field in descending order
         }
+        
+        
     })
     .sort({"createdAt":-1})
     // below will also work
@@ -45,10 +53,24 @@ module.exports.home=function(req,res){
             console.log("Error in fetching all the posts from the database");
             return;
         }
-        return  res.render('home',{
-            title:"Home_Page",
-            posts:posts   
+
+        User.find({},function(err,users){
+            if(err){
+                console.log("Error in finding all the users from the database");
+                return;
+            }
+            else{
+
+                return  res.render('home',{
+                    title:"Home_Page",
+                    posts:posts,
+                    all_users:users   
+                });
+            }
         });
+
+
+        
         
 
     });

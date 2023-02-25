@@ -32,5 +32,19 @@
 
 </section>
 
+<section id="user-friends">
+    <h2>
+        Friends
+    </h2>
+    <% for(user of all_users){%>
+        <p>
+            <a href="/users/profile/<%=user.id%>">
+                <%=user.name%>
+            </a>
+        </p>
+    <%}%>
+
+</section>
+
 
 <script src="/js/home.js"></script>

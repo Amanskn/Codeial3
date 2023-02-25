@@ -2,9 +2,35 @@ const User=require('../models/user');
 
 
 module.exports.profile=function(req,res){
-    return res.render('userProfile',{
-        title:'User_Profile'
-    });
+    // return res.render('userProfile',{
+    //     title:'User_Profile'
+    // });
+
+    // User.findById(req.params.id,function(err,user){
+    //     if(err){
+    //         console.log("Error in finding the user");
+    //         return;
+    //     }
+    //     return res.render('userProfile',{
+    //         title:'User_Profile',
+    //         profile_user:user
+    //     })
+    // })
+
+
+    User.findById(req.params.id)
+    .select('name email')
+    .exec((err, user) => {
+        if(err){
+            console.log("Error in finding the user");
+            return;
+        }
+        return res.render("userProfile",{
+            title:'User_Profile',
+            profile_user:user
+        })
+
+      });
 }
 
 // this is the action to render the sign up page
