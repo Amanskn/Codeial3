@@ -17,5 +17,6 @@ const postsController=require('../controllers/posts_controller');
 //  he/she will not be able to reach the action of creating a post. So an identity will always be established before making a post. 
 
 router.post( '/create' , passport.checkAuthentication , postsController.create );
+router.get( '/destroy/:id' , passport.checkAuthentication , postsController.destroy );
 
 module.exports=router;
