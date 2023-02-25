@@ -23,7 +23,20 @@ module.exports.home=function(req,res){
 
     // populating the user of each post excluding the password field
     // and also sorting in reverse chronological order
-    Post.find({}).populate('user',"-password")
+    Post.find({})
+    .populate('user',"-password")
+    .populate({
+        path:'comments',
+        populate:{
+            path:'user',
+            // to hide as many fields as I want from being populated
+            // select:'-name -password -email',
+
+            // to only populate the name field of the user
+            select:'name'
+            
+        }
+    })
     .sort({"createdAt":-1})
     // below will also work
     // .sort("-createdAt")
