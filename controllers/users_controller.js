@@ -1,7 +1,7 @@
 const User=require('../models/user');
 
 
-module.exports.profile=function(req,res){
+module.exports.profile = async function(req,res){
     // return res.render('userProfile',{
     //     title:'User_Profile'
     // });
@@ -16,21 +16,19 @@ module.exports.profile=function(req,res){
     //         profile_user:user
     //     })
     // })
+    try{
+        let user = await User.findById(req.params.id)
+        .select('name email');
 
-
-    User.findById(req.params.id)
-    .select('name email')
-    .exec((err, user) => {
-        if(err){
-            console.log("Error in finding the user");
-            return;
-        }
         return res.render("userProfile",{
             title:'Codeial | UserProfile',
             profile_user:user
-        })
+        });
 
-      });
+    }catch(err){
+        console.log("Error in finding the user");
+        return;
+    }
 }
 
 
