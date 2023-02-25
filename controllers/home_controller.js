@@ -5,7 +5,7 @@ const User=require('../models/user');
 
 
 
-module.exports.home=function(req,res){
+module.exports.home = async function(req,res){
 
     // console.log(req.cookies);
     // res.cookie("user_iddd","12344455")
