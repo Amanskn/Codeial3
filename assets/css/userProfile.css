@@ -1,2 +1,28 @@
 body {
   background-color: aqua; }
+  body h1 {
+    box-shadow: 0px 0px 3px 5px #a2855f;
+    border-radius: 20px;
+    background-color: #3a3030;
+    text-align: center;
+    color: teal;
+    padding-bottom: 5px; }
+  body input {
+    border: none;
+    font-size: 1rem;
+    padding: 5px 10px 5px 5px;
+    background-color: #3a3030;
+    box-shadow: 0px 0px 3px 5px #a2855f;
+    color: teal;
+    border-radius: 5px;
+    margin: 0px 5px;
+    font-weight: bold; }
+  body span {
+    background-color: #3a3030;
+    box-shadow: 0px 0px 3px 5px #a2855f;
+    color: teal;
+    padding: 5px;
+    border-radius: 20px;
+    font-weight: bold; }
+  body input[type="submit"] {
+    cursor: pointer; }

@@ -1,3 +1,7 @@
+::selection {
+  color: #3a3030;
+  background-color: teal; }
+
 body {
   margin: 0;
   background-color: yellow; }

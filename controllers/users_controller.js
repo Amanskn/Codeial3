@@ -26,7 +26,7 @@ module.exports.profile=function(req,res){
             return;
         }
         return res.render("userProfile",{
-            title:'User_Profile',
+            title:'Codeial | UserProfile',
             profile_user:user
         })
 

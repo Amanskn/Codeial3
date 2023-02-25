@@ -62,7 +62,7 @@ module.exports.home=function(req,res){
             else{
 
                 return  res.render('home',{
-                    title:"Home_Page",
+                    title:"Codeial | Home",
                     posts:posts,
                     all_users:users   
                 });

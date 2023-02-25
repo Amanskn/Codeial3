@@ -11,8 +11,9 @@
             <%=post.content%>
         </big>
         <br>
+        <br>
         
-        <small>
+        <small class="author-info-container">
             ~ Posted by :- <%=post.user.name%>
         </small>
     </p>
@@ -21,7 +22,7 @@
         <% if(locals.user){%>
 
             <form action="/comments/create" method="post">
-                <input type="text" name="content" placeholder="Type here to add comments..." required>
+                <input type="text" name="content" placeholder="Type here to comment..." required>
                 <input type="hidden" name="post" value="<%=post._id%>">
                 <input type="submit" value="Add Comment">
 
