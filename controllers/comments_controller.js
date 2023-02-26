@@ -13,16 +13,20 @@ module.exports.create = async function(req,res){
             });
             post.comments.push(comment);
             post.save();
-            res.redirect('/');
+            req.flash('success',"Comment created!")
+            return res.redirect('back');
         }
         else{
-            console.log("So sorry no post is found in the database");
+            req.flash('error',"So sorry no post is found in the database!")
+            // console.log("So sorry no post is found in the database");
             return;
         }
 
     }catch(err){
-        console.log("Error",err);
-        return;
+
+        req.flash('error',err);
+        // console.log("Error",err);
+        return res.redirect("back");
 
     }
 }
@@ -39,10 +43,13 @@ module.exports.destroy = async function(req,res){
                 let postId=comment.post;
                 comment.remove();
                 await Post.findByIdAndUpdate(postId,{ $pull : {comments:req.params.id}});
+                req.flash("success","Comment deleted!");
                 return res.redirect('back');
             }
             else{
-                console.log("You are unauthorized to delete this comment");
+
+                req.flash("error","You are unauthorized to delete this comment!");
+                // console.log("You are unauthorized to delete this comment");
                 return res.redirect('back');
             }
         }
@@ -51,8 +58,9 @@ module.exports.destroy = async function(req,res){
             return;
         }
     }catch(err){
-        console.log("Error",err);
-        return;
+        req.flash('error',err);
+        // console.log("Error",err);
+        return res.redirect('back');
     }
 
 }
