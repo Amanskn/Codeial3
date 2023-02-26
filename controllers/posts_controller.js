@@ -4,12 +4,23 @@ const Comment=require('../models/comment');
 
 module.exports.create = async function(req,res){
     try{
-        await Post.create({
+        let post = await Post.create({
             content:req.body.content,
             user:req.user._id
             // below is also working to set the user id in the database, I don't know why :)
             // user:req.user
         });
+
+
+        if(req.xhr){
+            return res.status(200).json({
+                data:{
+                    post:post
+                },
+                message:"Post created using Ajax"
+            })
+        }
+
     
         req.flash('success','Post published!');
         return res.redirect('back');
