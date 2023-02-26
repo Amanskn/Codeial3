@@ -9,6 +9,7 @@ const User=require('../models/user');
 // authentication using passport
 passport.use(new LocalStrategy({
         usernameField:'email',
+        // this basically allows us to set the first argument as req  
         passReqToCallback:true
     },
     function(req,email,password,done){
@@ -23,7 +24,7 @@ passport.use(new LocalStrategy({
             if(!user || user.password!=password){
 
                req.flash("error","Invalid Username/Password");
-               console.log("Invalid Username/Password"); 
+            //    console.log("Invalid Username/Password"); 
                return done(null,false);
             }
 
