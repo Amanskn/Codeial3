@@ -43,12 +43,23 @@ module.exports.destroy = async function(req,res){
                 post.remove();
                 await Comment.deleteMany({post:req.params.id});
 
+
+                if(req.xhr){
+            
+                    return res.status(200).json({
+                        data:{
+                            post_id:post._id
+                            // post_id:req.params.id
+                        },
+                        message:"Post and associated comments deleted via Ajax!"
+                    });
+                }
                 req.flash("success",'Post and associated comments deleted!');
                 return res.redirect('back');
             }
             else{
                 req.flash('error',"You are unauthorized to delete this post");
-                console.log("You are unauthorized to delete this post");
+                // console.log("You are unauthorized to delete this post");
                 return res.redirect('back');
             }
         }

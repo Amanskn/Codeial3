@@ -19,6 +19,18 @@
                 success : function(data){
                     let newPost = newPostDom(data.data.post);
                     $('#posts-list-container>ul').prepend(newPost);
+
+                    // The space character is important because it 
+                    // specifies that the class name delete-post-button 
+                    // should be a descendant of newPost, not an exact match.
+                    //  Without the space, the selector would look for an element
+                    //  with the exact class name delete-post-button that is a 
+                    // child of newPost. By including the space, we are searching
+                    //  for any descendant elements with the class delete-post-button, 
+                    // whether they are direct children or nested deeper within newPost.          
+                    deletePost($(' .delete-post-button',newPost));
+
+
                     new Noty({
                         theme: 'relax',
                         text: data.message,
@@ -86,8 +98,40 @@
             </div>                    
     
         </div>
+        <hr>
     </li>
-    <hr>`)
+    `);
+
+    }
+
+    // method to delete a post from the DOM
+    let deletePost=function(deleteLink){
+
+        $(deleteLink).click(function(e){
+            e.preventDefault();
+
+            $.ajax({
+                type: 'get',
+                url: $(deleteLink).prop('href'),
+                success:function(data){
+                    $(`#post-${data.data.post_id}`).remove();
+                    new Noty({
+                        theme: 'relax',
+                        text: data.message,
+                        type: "success",
+                        layout: "topRight",
+                        timeout: 1500
+    
+                    }).show();
+
+                },
+                error:function(error){
+                    console.log(error.responseText);
+                }
+
+
+            });
+        });
 
     }
 
