@@ -11,13 +11,16 @@ module.exports.create = async function(req,res){
             // user:req.user
         });
 
+        // populating only the name field of user
+        await post.populate('user' , 'name');
 
         if(req.xhr){
+            
             return res.status(200).json({
                 data:{
                     post:post
                 },
-                message:"Post created using Ajax"
+                message:"Post published via Ajax!"
             })
         }
 
