@@ -120,6 +120,7 @@ module.exports.create=function(req,res){
 // getting the sign in data and creating a session for the user
 module.exports.createSession=function(req,res){
   
+    req.flash('success',"Logged-in successfully");
     return res.redirect("/");
 }
 
@@ -128,6 +129,7 @@ module.exports.destroySession=function(req,res){
     // This function is given to req by passport.js
     req.logout(function(err) {
         if (err) { return next(err); }
+        req.flash('success',"You have logged-out");
         res.redirect('/');
       });
 }
