@@ -1,5 +1,8 @@
 const User=require('../models/user');
 
+const fs=require('fs');
+const path=require('path');
+
 
 module.exports.profile = async function(req,res){
     // return res.render('userProfile',{
@@ -18,7 +21,7 @@ module.exports.profile = async function(req,res){
     // })
     try{
         let user = await User.findById(req.params.id)
-        .select('name email');
+        .select('name email avatar');
 
         return res.render("userProfile",{
             title:'Codeial | UserProfile',
@@ -33,29 +36,68 @@ module.exports.profile = async function(req,res){
 
 
 
-module.exports.update=function(req,res){
+module.exports.update = async function(req,res){
+    // if(req.user.id == req.params.id){
+    //     User.findByIdAndUpdate(req.params.id,req.body,function(err,user){
+    //         if(err){
+    //             console.log("Error in updating the user",err);
+    //             return;
+    //         }
+    //         else{
+    //             req.flash('success',"Profile updated successfully!");
+    //             return res.redirect('back');
+    //         }
+    //     });
+    // }
+    // else{
+    //     return res.status(401).send("Unauthorized");
+    // }
+
     if(req.user.id == req.params.id){
-        User.findByIdAndUpdate(req.params.id,req.body,function(err,user){
-            if(err){
-                console.log("Error in updating the user",err);
-                return;
-            }
-            else{
+
+        try{
+
+            let user = await User.findById(req.params.id);
+            User.uploadedAvatar(req,res,function(err){
+                if(err){
+                    console.log("******Multer error",err);
+                }
+
+                // console.log(req.file);
+                user.name = req.body.name;
+                user.email = req.body.email;
+                if(req.file){
+
+                    if(user.avatar && fs.existsSync(path.join(__dirname,'..',user.avatar))){
+                        fs.unlinkSync(path.join(__dirname,'..',user.avatar));
+                    }
+
+                    // this is saving the path of the uploaded file into the avatar field in the user
+                    user.avatar=User.avatarPath+'/'+req.file.filename;
+                }
+                user.save();
                 req.flash('success',"Profile updated successfully!")
                 return res.redirect('back');
-            }
-        });
-    }
-    else{
+            })
+
+        }catch(err){
+            req.flash('error',err);
+            return res.redirect('back');
+        }
+
+    }else{
+        req.flash('error',"Unauthorized");
         return res.status(401).send("Unauthorized");
     }
+
+
 }
 
 // this is the action to render the sign up page
 module.exports.signUp=function(req,res){
 
     if(req.isAuthenticated()){
-        return res.redirect('/users/profile');
+        return res.redirect(`/users/profile/${req.user._id}`);
     }
 
     return res.render('user_sign_up',{
@@ -68,7 +110,7 @@ module.exports.signUp=function(req,res){
 module.exports.signIn=function(req,res){
 
     if(req.isAuthenticated()){
-        return res.redirect('/users/profile');
+        return res.redirect(`/users/profile/${req.user._id}`);
     }
 
     return res.render('user_sign_in',{

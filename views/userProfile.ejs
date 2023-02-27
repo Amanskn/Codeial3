@@ -1,5 +1,9 @@
 <link rel="stylesheet" href="/css/userProfile.css">
-<h1>
+
+<abbr title="<%=user.name%>">
+    <img  style="float: right;" src="<%=user.avatar%>" alt="<%=user.name%>" width="100px">
+</abbr>
+<h1 style="clear: right;">
     User's Profile Page 
 </h1>
 
@@ -21,6 +25,12 @@
         <!-- Else eshow only the profile information -->
         
             <p>
+                
+                <abbr title="<%=profile_user.name%>">
+                    <img   src="<%=profile_user.avatar%>" alt="<%=profile_user.name%>" width="100px">
+                </abbr>
+                <br>
+                <br>
                 <span>
                     <%=profile_user.name%>
                 </span>

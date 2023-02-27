@@ -52,6 +52,12 @@ app.use(cookieParser());
 // middleware to access static files inside assets folder
 app.use(express.static('./assets'));
 
+// make the upload path available to the browser
+app.use("/uploads" , express.static(__dirname+'/uploads'));
+
+// why not this ???
+// app.use(express.static('./uploads'));
+
 
 // using the expressLayout
 app.use(expressLayouts);
