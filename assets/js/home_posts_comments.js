@@ -13,7 +13,7 @@
                     url:'/comments/create',
                     data:$(this).serialize(),
                     success:function(data){
-                        console.log(data.data.comment.content);
+                        // console.log(data.data.comment.content);
 
                         let newComment=newCommentDom(data.data.comment);
                         $(`#post-comments-${data.data.comment.post}`).prepend(newComment);

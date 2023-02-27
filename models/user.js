@@ -1,4 +1,11 @@
 const mongoose=require('mongoose');
+const multer=require('multer');
+
+const path=require('path');
+
+// this is the path where the all the avatars' paths will be stored   
+const AVATAR_PATH = path.join('/uploads/users/avatars');
+
 
 const userSchema=new mongoose.Schema({
     email:{
