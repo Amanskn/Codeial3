@@ -48,8 +48,9 @@ module.exports.destroy = async function(req,res){
             
                     return res.status(200).json({
                         data:{
-                            post_id:post._id
-                            // post_id:req.params.id
+                            // both will work
+                            // post_id:post._id
+                            post_id:req.params.id
                         },
                         message:"Post and associated comments deleted via Ajax!"
                     });

@@ -7,11 +7,12 @@
     // method to submit the form data for new post using Ajax
     let createPost=function(){
 
+        // console.log("Create post called");
         let newPostForm = $('#new-post-form');
 
         newPostForm.submit(function(e){
             e.preventDefault();
-
+            // console.log("Now starting");
             $.ajax({
                 type : 'post',
                 url : "/posts/create",
@@ -30,7 +31,7 @@
                     // whether they are direct children or nested deeper within newPost.          
                     deletePost($(' .delete-post-button',newPost));
 
-
+                    
                     new Noty({
                         theme: 'relax',
                         text: data.message,
@@ -98,7 +99,7 @@
             </div>                    
     
         </div>
-        <hr>
+        <hr>    
     </li>
     `);
 
@@ -107,6 +108,7 @@
     // method to delete a post from the DOM
     let deletePost=function(deleteLink){
 
+        
         $(deleteLink).click(function(e){
             e.preventDefault();
 
@@ -114,6 +116,7 @@
                 type: 'get',
                 url: $(deleteLink).prop('href'),
                 success:function(data){
+                    // console.log("Executed");
                     $(`#post-${data.data.post_id}`).remove();
                     new Noty({
                         theme: 'relax',
@@ -135,5 +138,12 @@
 
     }
 
+
     createPost();
+
+    // looping through all the delete button of pre available posts on the page
+    $('.delete-post-button').each(function() {
+        deletePost($(this));
+    });
+    
 }

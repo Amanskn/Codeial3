@@ -41,6 +41,7 @@ module.exports.update=function(req,res){
                 return;
             }
             else{
+                req.flash('success',"Profile updated successfully!")
                 return res.redirect('back');
             }
         });
