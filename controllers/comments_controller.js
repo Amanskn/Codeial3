@@ -1,5 +1,7 @@
 const Comment=require('../models/comment');
 const Post=require('../models/post');
+const commentsMailer=require('../mailers/comments_mailer');
+
 
 module.exports.create = async function(req,res){
 
@@ -17,9 +19,10 @@ module.exports.create = async function(req,res){
             console.log("Comment created");
             post.comments.push(comment);
             post.save();
-            await comment.populate('user','name');
+            await comment.populate('user','name email');
 
             console.log("Before xhr");
+            commentsMailer.newComment(comment);
             if(req.xhr){
                 console.log("Inside xhr");
                 
