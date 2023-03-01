@@ -1,6 +1,8 @@
 const Comment=require('../models/comment');
 const Post=require('../models/post');
 const commentsMailer=require('../mailers/comments_mailer');
+const commentEmailWorker=require('../workers/comment_email_worker');
+const queue = require("../config/kue");
 
 
 module.exports.create = async function(req,res){
@@ -22,7 +24,21 @@ module.exports.create = async function(req,res){
             await comment.populate('user','name email');
 
             console.log("Before xhr");
-            commentsMailer.newComment(comment);
+            // commentsMailer.newComment(comment);
+
+            // When queue.create() method is invoked, it returns a job object 
+            // which is assigned to the job variable using let keyword. This job 
+            // variable is then passed as an argument to the callback function function(err){}.
+
+            let job=queue.create('emails',comment)
+            .save(function(err){
+                if(err){
+                    console.log("Error in sending to the Queue",err);
+                    return;
+                }
+                console.log("job enqueued",job.id);
+            });
+
             if(req.xhr){
                 console.log("Inside xhr");
                 

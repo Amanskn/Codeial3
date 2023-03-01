@@ -1,5 +1,5 @@
 body {
-  background-color: crimson; }
+  background-color: pink; }
   body > main {
     display: flex;
     justify-content: space-between;
