@@ -1,6 +1,8 @@
 // requiring the express module
 const express=require('express');
 
+const env=require('./config/environment');
+
 // requiring the cookie parser module to parse the cookie
 const cookieParser=require('cookie-parser');
 
@@ -8,7 +10,8 @@ const cookieParser=require('cookie-parser');
 const app=express();
 
 // The port on which our server will run
-const port=9000;
+// const port=env.port;
+const port=env.port;
 
 
 // requiring the ejs layout
@@ -34,10 +37,13 @@ const customMware=require('./config/middleware');
 
 
 
+const path = require('path');
+
+
 
 app.use(sassMiddleware({
-    src:"./assets/scss",
-    dest:"./assets/css",
+    src:path.join(__dirname,env.asset_path,'scss'),
+    dest:path.join(__dirname,env.asset_path,'css'),
     debug:true,
     outputStyle:'extended',
     prefix:'/css'
@@ -53,7 +59,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 
 // middleware to access static files inside assets folder
-app.use(express.static('./assets'));
+app.use(express.static(env.asset_path));
 
 // make the upload path available to the browser
 app.use("/uploads" , express.static(__dirname+'/uploads'));
@@ -84,7 +90,7 @@ app.set('views','./views');
 app.use(session({
     name:'codeial',
     // TODO change the secret before deployment in production mode
-    secret:"blahsomething",
+    secret:env.session_cookie_key,
     saveUninitialized:false,
     resave:false,
     cookie:{
@@ -128,4 +134,10 @@ app.listen(port,function(err){
         return;
     }
     console.log(`Server is running on port no:${port}`);
+    // console.log(process.env.CODEIAL3_ASSET_PATH);
+    // console.log(process.env.CODEIAL3_GMAIL_USERNAME);
+    console.log("this is the env name: ",env.name);
+    // console.log(NODE_ENV);
+
+    
 });
