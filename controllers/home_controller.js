@@ -7,25 +7,6 @@ const User=require('../models/user');
 
 module.exports.home = async function(req,res){
 
-    // console.log(req.cookies);
-    // res.cookie("user_iddd","12344455")
-
-    // Post.find({},function(err,posts){
-    //     if(err){
-    //         console.log("Error in fetching all the posts from the database");
-    //         return;
-    //     }
-    //     return  res.render('home',{
-    //         title:"Home_Page",
-    //         posts:posts
-    //     });
-    // })
-
-
-    // populating the user of each post excluding the password field
-    // and also sorting in reverse chronological order
-
-
     try{
 
         let posts= await Post.find({})
