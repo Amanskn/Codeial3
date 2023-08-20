@@ -37,15 +37,15 @@ const customMware = require("./config/middleware");
 
 const path = require("path");
 
-app.use(
-  sassMiddleware({
-    src: path.join(__dirname, env.asset_path, "scss"),
-    dest: path.join(__dirname, env.asset_path, "css"),
-    debug: true,
-    outputStyle: "extended",
-    prefix: "/css",
-  })
-);
+// app.use(
+//   sassMiddleware({
+//     src: path.join(__dirname, env.asset_path, "scss"),
+//     dest: path.join(__dirname, env.asset_path, "css"),
+//     debug: true,
+//     outputStyle: "extended",
+//     prefix: "/css",
+//   })
+// );
 
 // express.urlencoded() is a built-in middleware in Express.js.
 //  The main objective of this method is to parse the incoming
@@ -77,15 +77,20 @@ app.set("view engine", "ejs");
 app.set("views", "./views");
 
 // mongo store is used to store the session cookie in the db
-
+app.use((req, res, next) => {
+  console.log("@@@@@@@@@@@@@@@express.session() middleware is being invoked.");
+  next();
+});
 app.use(
   session({
-    name: "codeial",
+    name: "bob",
     // TODO change the secret before deployment in production mode
     secret: env.session_cookie_key,
+
     saveUninitialized: false,
     resave: false,
     cookie: {
+      name: "builder",
       maxAge: 1000 * 60 * 100,
       // maxAge:(1000*5)
     },
@@ -105,6 +110,10 @@ app.use(
 );
 
 app.use(passport.initialize());
+app.use((req, res, next) => {
+  console.log("passport.session() middleware is being invoked.");
+  next();
+});
 
 // This middleware is responsible for serializing and deserializing user
 // sessions for authentication purposes. It enables Passport to store user

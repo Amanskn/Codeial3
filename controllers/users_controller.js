@@ -109,7 +109,11 @@ module.exports.signIn = function (req, res) {
 // getting the sign up data
 module.exports.create = function (req, res) {
   // if password and confirm password do not match then redirect to the sign up page
+
   if (req.body.password != req.body.confirm_password) {
+    console.log("Password do not match");
+
+    req.flash("success", "Email/password do not match");
     return res.redirect("back");
   }
 
